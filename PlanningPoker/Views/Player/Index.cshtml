@@ -3,9 +3,19 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-<div class="container" data-bind="foreach: cards">
-    <button data-bind="text: value, click: pick"></button>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#"><span data-bind="text: name"></span> &ndash; Room <span data-bind="text: room"></span></a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+
+    <div class="row" data-bind="foreach: cards">
+        <div class="col-xs-6 col-md-3"><button class="btn btn-primary btn-lg" style="width: 100%; margin-bottom: 15px; margin-left: 0; height: 60px;" data-bind="html: formattedValue, click: pick"></button></div>
+    </div>
 </div>
 
 @section scripts {
@@ -28,7 +38,9 @@
             function PlayerViewModel() {
                 var self = this;
 
-                self.cards = ko.observableArray([new Card(""), new Card("0"), new Card("½"), new Card("1"), new Card("2"), new Card("3"), new Card("5"), new Card("8"), new Card("13"), new Card("21"), ]);
+                self.cards = ko.observableArray([new Card(""), new Card("0"), new Card("½"), new Card("1"), new Card("2"), new Card("3"), new Card("5"), new Card("8"), new Card("13"), new Card("21"), new Card("?"), new Card("c")]);
+                self.name = ko.observable(pokerHubProxy.state.name);
+                self.room = ko.observable(pokerHubProxy.state.room);
             }
 
             function Card(value) {
@@ -38,6 +50,12 @@
                 self.pick = function () {
                     pokerHubProxy.server.pick(self.value);
                 }
+
+                self.formattedValue = ko.pureComputed(function () {
+                    if (self.value == "") return '&nbsp;';
+                    if (self.value == "c") return '<span class="glyphicon glyphicon-glass" aria-hidden="true"></span>';
+                    return self.value;
+                }, self);
             }
         });
     </script>
