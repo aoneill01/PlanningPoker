@@ -7,87 +7,26 @@
 <h2>Room @Model</h2>
 
 <div data-bind="foreach: players">
-    <section class="hand">
+    <section class="hand" data-bind="css: { pick: card }">
         <div class="card">
-            <figure class="front">D</figure>
+            <figure class="front"></figure>
         </div><div class="card">
-            <figure class="front">D</figure>
+            <figure class="front"></figure>
         </div><div class="card">
-            <figure class="front">D</figure>
+            <figure class="front"></figure>
             <figure class="back" data-bind="text: card"></figure>
         </div><div class="card">
-            <figure class="front">D</figure>
+            <figure class="front"></figure>
         </div><div class="card">
-            <figure class="front">D</figure>
+            <figure class="front"></figure>
         </div>
         <div class="name" data-bind="text: name"></div>
     </section>
 </div>
 
-<section class="hand">
-    <div class="card">
-        <figure class="front">A</figure>
-    </div><div class="card">
-        <figure class="front">A</figure>
-    </div><div class="card">
-        <figure class="front">A</figure>
-        <figure class="back">8</figure>
-    </div><div class="card">
-        <figure class="front">A</figure>
-    </div><div class="card">
-        <figure class="front">A</figure>
-    </div>
-</section>
-
-<section class="hand">
-    <div class="card">
-        <figure class="front">B</figure>
-    </div><div class="card">
-        <figure class="front">B</figure>
-    </div><div class="card">
-        <figure class="front">B</figure>
-        <figure class="back">3</figure>
-    </div><div class="card">
-        <figure class="front">B</figure>
-    </div><div class="card">
-        <figure class="front">B</figure>
-    </div>
-</section>
-
-<section class="hand">
-    <div class="card">
-        <figure class="front">C</figure>
-    </div><div class="card">
-        <figure class="front">C</figure>
-    </div><div class="card">
-        <figure class="front">C</figure>
-        <figure class="back">13</figure>
-    </div><div class="card">
-        <figure class="front">C</figure>
-    </div><div class="card">
-        <figure class="front">C</figure>
-    </div>
-</section>
-
-<section class="hand">
-    <div class="card">
-        <figure class="front">D</figure>
-    </div><div class="card">
-        <figure class="front">D</figure>
-    </div><div class="card">
-        <figure class="front">D</figure>
-        <figure class="back">5</figure>
-    </div><div class="card">
-        <figure class="front">D</figure>
-    </div><div class="card">
-        <figure class="front">D</figure>
-    </div>
-</section>
-
 <br />
 <br />
-<button id="pick">Pick!</button>
-
+<button id="reset" data-bind="click: reset">Reset</button>
 @section scripts {
     <script src="~/Scripts/room.js"></script>
     <script src="~/Scripts/knockout-3.4.0.js"></script>
@@ -101,13 +40,7 @@
             var pokerHubProxy = $.connection.pokerHub;
             // Create a function that the hub can call back to display messages.
             pokerHubProxy.state.room = "@Model";
-            pokerHubProxy.client.playerJoined = function (name, connectionId) {
-                
-                vm.addPlayer(name, connectionId);
-            };
 
-            
-            
             ko.applyBindings(new RoomViewModel(pokerHubProxy));
 
             $.connection.hub.start().done(function () {
@@ -118,20 +51,34 @@
                 var self = this;
 
                 self.players = ko.observableArray([]);
+                
+                self.reset = function () {
+                    $('.hand').removeClass('flip').removeClass('pick');
+                    for (var i = 0; i < self.players().length; i++) {
+                        self.players()[i].card("");
+                    }
+                }
 
                 pokerHubProxy.client.playerJoined = function (name, connectionId) {
-                    console.log(name + " " + connectionId + " joined");
                     self.players.push(new Player(name, connectionId));
                 }
 
                 pokerHubProxy.client.picked = function (name, connectionId, card) {
-                    console.log(name + " " + connectionId + " picked " + card);
                     for (var i = 0; i < self.players().length; i++) {
-                        console.log(self.players()[i]);
                         if (self.players()[i].connectionId == connectionId) {
-                            console.log("found it");
                             self.players()[i].card(card);
                         }
+                    }
+
+                    var flip = true;
+                    for (var i = 0; i < self.players().length; i++) {
+                        if (self.players()[i].card() == "") {
+                            flip = false;
+                            break;
+                        }
+                    }
+                    if (flip) {
+                        setTimeout(function () { $('.hand').addClass('flip'); }, 2000);
                     }
                 };
             }
@@ -146,6 +93,4 @@
         });
 
     </script>
-
-
 }

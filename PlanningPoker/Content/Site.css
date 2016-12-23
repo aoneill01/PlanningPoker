@@ -2,7 +2,7 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: #dde;
+  background-color: #999;
 }
 
 .hand {
@@ -82,7 +82,7 @@ button {
     text-shadow: .1vw .1vw .2vw black;
     position: absolute;
     width: 100%;
-    bottom: 0;
+    bottom: 2vw;
     font-weight: bold;
     text-align: center;
     color: white;
