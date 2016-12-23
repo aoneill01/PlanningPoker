@@ -7,7 +7,7 @@
 <h2>Room @Model</h2>
 
 <div data-bind="foreach: players">
-    <section class="hand" data-bind="css: { pick: card }">
+    <section class="hand" data-bind="css: { pick: picked, flip: $root.flip }">
         <div class="card">
             <figure class="front"></figure>
         </div><div class="card">
@@ -24,9 +24,6 @@
     </section>
 </div>
 
-<br />
-<br />
-<button id="reset" data-bind="click: reset">Reset</button>
 @section scripts {
     <script src="~/Scripts/room.js"></script>
     <script src="~/Scripts/knockout-3.4.0.js"></script>
@@ -59,26 +56,41 @@
                     }
                 }
 
-                pokerHubProxy.client.playerJoined = function (name, connectionId) {
-                    self.players.push(new Player(name, connectionId));
-                }
-
-                pokerHubProxy.client.picked = function (name, connectionId, card) {
+                self.findByConnectionId = function (connectionId) {
                     for (var i = 0; i < self.players().length; i++) {
                         if (self.players()[i].connectionId == connectionId) {
-                            self.players()[i].card(card);
+                            return self.players()[i];
                         }
+                    }
+                    return undefined;
+                }
+
+                self.haveAllPicked = function () {
+                    for (var i = 0; i < self.players().length; i++) {
+                        if (!self.players()[i].picked()) {
+                            return false;
+                        }
+                    }
+                    return true;
+                };
+
+                self.flip = ko.observable(false);
+
+                pokerHubProxy.client.picked = function (name, connectionId, card) {
+                    var player = self.findByConnectionId(connectionId)
+                    
+                    if (!player) {
+                        player = new Player(name, connectionId);
+                        self.players.push(player);
                     }
 
-                    var flip = true;
-                    for (var i = 0; i < self.players().length; i++) {
-                        if (self.players()[i].card() == "") {
-                            flip = false;
-                            break;
-                        }
+                    player.card(card);
+
+                    if (self.haveAllPicked()) {
+                        setTimeout(function () { self.flip(true); }, 2000);
                     }
-                    if (flip) {
-                        setTimeout(function () { $('.hand').addClass('flip'); }, 2000);
+                    else {
+                        self.flip(false);
                     }
                 };
             }
@@ -88,6 +100,9 @@
                 self.name = name;
                 self.connectionId = connectionId;
                 self.card = ko.observable("");
+                self.picked = ko.pureComputed(function () {
+                    return self.card() != "";
+                }, self);
             }
 
         });

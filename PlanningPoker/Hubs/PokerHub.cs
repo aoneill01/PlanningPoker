@@ -8,16 +8,10 @@ namespace PlanningPoker.Hubs
         {
             Groups.Add(Context.ConnectionId, PresenterGroup(Clients.Caller.room));
         }
-
-        public void Join()
-        {
-            Groups.Add(Context.ConnectionId, PlayerGroup(Clients.Caller.room));
-            string group = PresenterGroup(Clients.Caller.room);
-            Clients.Group(group).playerJoined(Clients.Caller.name, Context.ConnectionId);
-        }
-
+        
         public void Pick(string card)
         {
+            Groups.Add(Context.ConnectionId, PlayerGroup(Clients.Caller.room));
             string group = PresenterGroup(Clients.Caller.room);
             Clients.Group(group).picked(Clients.Caller.name, Context.ConnectionId, card);
         }
