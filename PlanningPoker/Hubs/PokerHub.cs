@@ -18,6 +18,12 @@ namespace PlanningPoker.Hubs
             Clients.Group(group).picked(Clients.Caller.name, Context.ConnectionId, card);
         }
 
+        public void NextHand()
+        {
+            string group = PlayerGroup(Clients.Caller.room);
+            Clients.Group(group).clear();
+        }
+
         private static string PresenterGroup(string room) => $"presenter-{room}";
         private static string PlayerGroup(string room) => $"player-{room}";
     }

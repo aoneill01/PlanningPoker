@@ -5,9 +5,14 @@
 }
 
 <nav class="navbar navbar-default">
-    <div class="container-fluid">
+    <div class="container">
         <div class="navbar-header">
             <a class="navbar-brand" href="#">Room @Model</span></a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#" data-bind="click: nextHand">Next Hand</a></li>
+            </ul>
         </div>
     </div>
 </nav>
@@ -20,7 +25,7 @@
             <figure class="front"></figure>
         </div><div class="card">
             <figure class="front"></figure>
-            <figure class="back" data-bind="text: card"></figure>
+            <figure class="back" data-bind="html: formattedCard"></figure>
         </div><div class="card">
             <figure class="front"></figure>
         </div><div class="card">
@@ -81,6 +86,10 @@
 
                 self.flip = ko.observable(false);
 
+                self.nextHand = function () {
+                    pokerHubProxy.server.nextHand();
+                }
+
                 pokerHubProxy.client.picked = function (name, connectionId, card) {
                     var player = self.findByConnectionId(connectionId)
                     
@@ -105,6 +114,11 @@
                 self.name = name;
                 self.connectionId = connectionId;
                 self.card = ko.observable("");
+                self.formattedCard = ko.pureComputed(function () {
+                    if (self.card() == "c") return '<span class="glyphicon glyphicon-glass" aria-hidden="true"></span>';
+                    return self.card();
+                }, self);
+
                 self.picked = ko.pureComputed(function () {
                     return self.card() != "";
                 }, self);
