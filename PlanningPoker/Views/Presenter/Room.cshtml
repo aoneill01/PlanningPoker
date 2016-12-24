@@ -43,9 +43,7 @@
     
     <script>
         $(function () {
-            // Reference the auto-generated proxy for the hub.
             var pokerHubProxy = $.connection.pokerHub;
-            // Create a function that the hub can call back to display messages.
             pokerHubProxy.state.room = "@Model";
 
             ko.applyBindings(new RoomViewModel(pokerHubProxy));
@@ -87,7 +85,15 @@
                 self.flip = ko.observable(false);
 
                 self.nextHand = function () {
+                    for (var i = 0; i < self.players().length; i++) {
+                        self.players()[i].stale = true;
+                    }
+
                     pokerHubProxy.server.nextHand();
+
+                    setTimeout(function () {
+                        self.players.remove(function (player) { return player.stale; });
+                    }, 2000);
                 }
 
                 pokerHubProxy.client.picked = function (name, connectionId, card) {
@@ -111,6 +117,7 @@
 
             function Player(name, connectionId) {
                 var self = this;
+                
                 self.name = name;
                 self.connectionId = connectionId;
                 self.card = ko.observable("");
@@ -122,6 +129,10 @@
                 self.picked = ko.pureComputed(function () {
                     return self.card() != "";
                 }, self);
+
+                self.stale = false;
+
+                self.card.subscribe(function () { self.stale = false; });
             }
 
         });
