@@ -7,6 +7,8 @@ namespace PlanningPoker.Hubs
         public void CreateRoom()
         {
             Groups.Add(Context.ConnectionId, PresenterGroup(Clients.Caller.room));
+            string group = PlayerGroup(Clients.Caller.room);
+            Clients.Group(group).marco();
         }
         
         public void Pick(string card)

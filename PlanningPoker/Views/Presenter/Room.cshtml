@@ -1,10 +1,16 @@
 ﻿@model string
 
 @{
-    ViewBag.Title = "Room";
+    ViewBag.Title = "Planning Poker";
 }
 
-<h2>Room @Model</h2>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Room @Model</span></a>
+        </div>
+    </div>
+</nav>
 
 <div data-bind="foreach: players">
     <section class="hand" data-bind="css: { pick: picked, flip: $root.flip }">
@@ -32,7 +38,6 @@
     
     <script>
         $(function () {
-            
             // Reference the auto-generated proxy for the hub.
             var pokerHubProxy = $.connection.pokerHub;
             // Create a function that the hub can call back to display messages.
@@ -87,7 +92,7 @@
                     player.card(card);
 
                     if (self.haveAllPicked()) {
-                        setTimeout(function () { self.flip(true); }, 2000);
+                        setTimeout(function () { if (self.haveAllPicked()) self.flip(true); }, 2000);
                     }
                     else {
                         self.flip(false);
