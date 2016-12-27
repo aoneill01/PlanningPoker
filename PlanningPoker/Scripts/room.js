@@ -78,7 +78,7 @@
         self.connectionId = connectionId;
         self.card = ko.observable("");
         self.formattedCard = ko.pureComputed(function () {
-            if (self.card() == "c") return '<span class="glyphicon glyphicon-glass" aria-hidden="true"></span>';
+            if (self.card().indexOf('fa-') == 0) return '<i class="fa ' + self.card() + '" aria-hidden="true"></i>';
             return self.card();
         }, self);
 
