@@ -58,6 +58,7 @@
             if (!player) {
                 player = new Player(name, connectionId);
                 self.players.push(player);
+                self.players.sort(function (left, right) { return left.name.toLowerCase() == right.name.toLowerCase() ? 0 : (left.name.toLowerCase() < right.name.toLowerCase() ? -1 : 1) })
             }
 
             player.card(card);

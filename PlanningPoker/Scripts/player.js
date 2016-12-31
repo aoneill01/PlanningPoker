@@ -1,8 +1,9 @@
 ﻿$(function () {
     var pokerHubProxy = $.connection.pokerHub;
 
-    pokerHubProxy.state.name = prompt('Enter your name:', '')
-    pokerHubProxy.state.room = prompt('Enter the room id', '');
+    pokerHubProxy.state.name = prompt('Enter your name:', window.localStorage.lastUsedName)
+    window.localStorage.lastUsedName = pokerHubProxy.state.name;
+    pokerHubProxy.state.room = prompt('Enter the room id', window.lastRoomId);
 
     ko.applyBindings(new PlayerViewModel(pokerHubProxy));
 

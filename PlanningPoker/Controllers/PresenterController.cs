@@ -10,11 +10,13 @@ namespace PlanningPoker.Controllers
 
         public ActionResult Index()
         {
+            
             return RedirectToAction("Room", new { id = GenerateRoomId() });
         }
 
         public ActionResult Room(string id)
         {
+            HttpContext.Application["LastRoomId"] = id;
             return View((object)id);
         }
 

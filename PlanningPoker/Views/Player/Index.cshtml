@@ -1,4 +1,5 @@
-﻿
+﻿@model string
+
 @{
     ViewBag.Title = "Planning Poker";
 }
@@ -21,5 +22,10 @@
     <script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
     <script src="~/signalr/hubs"></script>
     <script src="~/Scripts/knockout-3.4.0.js"></script>
+
+    <script>
+        window.lastRoomId = "@(Model ?? "")";
+    </script>
+
     <script src="~/Scripts/player.js"></script>
 }
