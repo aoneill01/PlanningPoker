@@ -65,11 +65,10 @@ body {
 }
 
 .card .front {
-  /*background: repeating-linear-gradient( 45deg, #606dbc, #606dbc 10%, #465298 10%, #465298 20%);*/
-background-color: #eef;
-background-image: linear-gradient(45deg, #3276b1 25%, transparent 25%, transparent 75%, #3276b1 75%, #3276b1), 
-linear-gradient(-45deg, #3276b1 25%, transparent 25%, transparent 75%, #3276b1 75%, #3276b1);
-background-size:2vw 2vw;
+    background-color: #80b0fc;
+    background-image: radial-gradient(closest-side, transparent 98%, rgba(0,0,0,.3) 99%), radial-gradient(closest-side, transparent 98%, rgba(0,0,0,.3) 99%);
+    background-size:33.4% 25%;
+    background-position:0 0, 25% 16.5%;
 }
 
 .card .back {
