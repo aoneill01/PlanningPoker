@@ -20,9 +20,9 @@
             }
         }
 
-        self.findByConnectionId = function (connectionId) {
+        self.findByName = function (name) {
             for (var i = 0; i < self.players().length; i++) {
-                if (self.players()[i].connectionId == connectionId) {
+                if (self.players()[i].name == name) {
                     return self.players()[i];
                 }
             }
@@ -52,11 +52,11 @@
             }, 2000);
         }
 
-        pokerHubProxy.client.picked = function (name, connectionId, card) {
-            var player = self.findByConnectionId(connectionId)
+        pokerHubProxy.client.picked = function (name, card) {
+            var player = self.findByName(name)
 
             if (!player) {
-                player = new Player(name, connectionId);
+                player = new Player(name);
                 self.players.push(player);
                 self.players.sort(function (left, right) { return left.name.toLowerCase() == right.name.toLowerCase() ? 0 : (left.name.toLowerCase() < right.name.toLowerCase() ? -1 : 1) })
             }
@@ -72,11 +72,10 @@
         };
     }
 
-    function Player(name, connectionId) {
+    function Player(name) {
         var self = this;
 
         self.name = name;
-        self.connectionId = connectionId;
         self.card = ko.observable("");
         self.formattedCard = ko.pureComputed(function () {
             if (self.card().indexOf('fa-') == 0) return '<i class="fa ' + self.card() + '" aria-hidden="true"></i>';

@@ -15,7 +15,7 @@ namespace PlanningPoker.Hubs
         {
             Groups.Add(Context.ConnectionId, PlayerGroup(Clients.Caller.room));
             string group = PresenterGroup(Clients.Caller.room);
-            Clients.Group(group).picked(Clients.Caller.name, Context.ConnectionId, card);
+            Clients.Group(group).picked(Clients.Caller.name, card);
         }
 
         public void NextHand()

@@ -1,7 +1,9 @@
 ﻿$(function () {
     var pokerHubProxy = $.connection.pokerHub;
 
-    pokerHubProxy.state.name = prompt('Enter your name:', window.localStorage ? window.localStorage.getItem('lastUsedName') : "");
+    var lastUsedName = "";
+    if (window.localStorage && window.localStorage.getItem('lastUsedName')) lastUsedName = window.localStorage.getItem('lastUsedName');
+    pokerHubProxy.state.name = prompt('Enter your name:', lastUsedName);
     try {
         window.localStorage.setItem('lastUsedName', pokerHubProxy.state.name);
     } 
@@ -12,10 +14,16 @@
 
     ko.applyBindings(new PlayerViewModel(pokerHubProxy));
 
-    $.connection.hub.start().done(function () {
-        pokerHubProxy.server.pick("");
+    startHub();
+    
+    $.connection.hub.disconnected(function () {
+        startHub();
     });
-
+    
+    function startHub() {
+        $.connection.hub.start().done(pokerHubProxy.client.marco);
+    }
+    
     function PlayerViewModel() {
         var self = this;
 
