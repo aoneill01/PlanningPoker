@@ -243,3 +243,4 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+PlanningPoker/Properties/PublishProfiles/aoneillplanningpoker - Web Deploy.pubxml
