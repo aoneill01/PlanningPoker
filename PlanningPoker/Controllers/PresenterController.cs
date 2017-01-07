@@ -22,7 +22,7 @@ namespace PlanningPoker.Controllers
 
         private string GenerateRoomId()
         {
-            string validCharacters = "abcdefghijkmnpqrstuvwxyz23456789";
+            string validCharacters = "abcdefghijkmnpqrstuxyz23456789";
             StringBuilder result = new StringBuilder();
             for (var i = 0; i < 4; i++)
             {

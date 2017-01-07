@@ -3,10 +3,17 @@
 }
 
 <div class="container">
+    <div class="alert alert-info"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> This site is under development.</div>
     <div class="jumbotron" style="margin-top: 2em;">
         <h1>Planning Poker</h1>
-        <p class="lead">Planning Poker is a site to assist in estimating relative sizes of tasks. A room shows everyone's status. Indivdual players can join rooms to play cards.</p>
-        <p><a href="@Url.Action("Index", "Player")" class="btn btn-primary btn-lg">Start Playing &raquo;</a> <a href="@Url.Action("Index", "Presenter")" class="btn btn-primary btn-lg">Host a Room &raquo;</a></p>
+        <p class="lead">This site assits in playing <a href="https://en.wikipedia.org/wiki/Planning_poker" target="_blank">planning poker</a>. Host a room and display it on a screen in the meeting room. Individuals can join the room on mobile devices to make their estimates.</p>
+        <p><a href="@Url.Action("Index", "Player")" class="btn btn-primary btn-lg">Join a Room <i class="fa fa-sign-in" aria-hidden="true"></i></a> <a href="@Url.Action("Index", "Presenter")" class="btn btn-primary btn-lg">Host a Room <i class="fa fa-users" aria-hidden="true"></i></a></p>
     </div>
-
 </div>
+
+@section head {
+    <style>
+        .btn { margin-bottom: .5em; }        
+    </style>
+}
+    
