@@ -4,17 +4,46 @@
     ViewBag.Title = "Planning Poker";
 }
 
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#"><span data-bind="text: name"></span> &ndash; Room <span data-bind="text: room"></span></a>
+<div data-bind="visible: !loggedIn()">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Enter Data</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-md-6">
+                <form>
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" placeholder="Name" data-bind="value: name, valueUpdate: 'keyup'">
+                    </div>
+                    <div class="form-group">
+                        <label for="room">Room ID</label>
+                        <input type="text" class="form-control" id="room" placeholder="Room ID" data-bind="value: room, valueUpdate: 'keyup'">
+                    </div>
+                    <button type="button" class="btn btn-default" data-bind="enable: isFormValid, click: logIn">Submit</button>
+                </form>
+            </div>
         </div>
     </div>
-</nav>
+</div>
+<div data-bind="visible: loggedIn">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#"><span data-bind="text: name"></span> &ndash; Room <span data-bind="text: room"></span></a>
+            </div>
+        </div>
+    </nav>
 
-<div class="container">
-    <div class="row" data-bind="foreach: cards">
-        <div class="col-xs-6 col-md-3"><button style="width: 100%; margin-bottom: 15px; margin-left: 0; height: 60px;" data-bind="html: formattedValue, click: $root.pickCard, css: classes"></button></div>
+    <div class="container">
+        <div class="row" data-bind="foreach: cards">
+            <div class="col-xs-6 col-md-3"><button style="width: 100%; margin-bottom: 15px; margin-left: 0; height: 60px;" data-bind="html: formattedValue, click: $root.pickCard, css: classes"></button></div>
+        </div>
     </div>
 </div>
 

@@ -2,18 +2,65 @@
     ViewBag.Title = "Planning Poker";
 }
 
+<div class="banner">
+    <div class="container">
+        <div class="row">
+            <img src="~/Content/logo.svg" />
+            <div class="banner-content">
+                <h1>Planning Poker</h1>
+                <p><a href="@Url.Action("Index", "Player")" class="btn btn-primary btn-lg">Join a Room <i class="fa fa-sign-in" aria-hidden="true"></i></a> <a href="@Url.Action("Index", "Presenter")" class="btn btn-primary btn-lg">Host a Room <i class="fa fa-users" aria-hidden="true"></i></a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container">
-    <div class="alert alert-info"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> This site is under development.</div>
-    <div class="jumbotron" style="margin-top: 2em;">
-        <h1>Planning Poker</h1>
-        <p class="lead">This site assits in playing <a href="https://en.wikipedia.org/wiki/Planning_poker" target="_blank">planning poker</a>. Host a room and display it on a screen in the meeting room. Individuals can join the room on mobile devices to make their estimates.</p>
-        <p><a href="@Url.Action("Index", "Player")" class="btn btn-primary btn-lg">Join a Room <i class="fa fa-sign-in" aria-hidden="true"></i></a> <a href="@Url.Action("Index", "Presenter")" class="btn btn-primary btn-lg">Host a Room <i class="fa fa-users" aria-hidden="true"></i></a></p>
+    <div class="well well-lg">
+        <div class="alert alert-info"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> This site is under development.</div>
+        <p>This site assits in playing <a href="https://en.wikipedia.org/wiki/Planning_poker" target="_blank">planning poker</a>. 
+            <ol>
+                <li><a href="@Url.Action("Index", "Player")">Host a room</a> and display it on a screen in the meeting room.</li>
+                <li>Individuals can <a href="@Url.Action("Index", "Presenter")">join the room</a> on mobile devices to make their estimates.</li>
+                <li>When all people in the room have made a selection, the results are displayed in the room.</li>
+            </ol>
+        </p>
     </div>
 </div>
 
 @section head {
     <style>
-        .btn { margin-bottom: .5em; }        
+        .btn { margin-bottom: .5em; }   
+        img { 
+            float: left; 
+            padding: 15px;
+        }
+        .banner {
+            background: linear-gradient(170deg, #AD1457, #1976D2);
+            color: white;
+        }
+        .banner h1 {
+            font-size: 60px;
+        }
+        .banner-content {
+            margin-left: 255px;
+        }
+        .banner img {
+            display: none;
+        }
+        .banner-content {
+            margin-left: 15px;
+        }
+        .well {
+            margin-top: 15px;
+        }
+        @@media screen and (min-width: 768px) {
+            .banner-content {
+                margin-left: 255px;
+            }
+            .banner img {
+                display: inherit;
+            }
+        }
     </style>
 }
     
