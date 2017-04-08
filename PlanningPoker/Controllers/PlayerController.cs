@@ -6,7 +6,7 @@ namespace PlanningPoker.Controllers
     {
         public ActionResult Index()
         {
-            return View((object)HttpContext.Application["LastRoomId"]);
+            return View();
         }
     }
 }

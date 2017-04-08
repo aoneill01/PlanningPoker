@@ -19,11 +19,12 @@
 
         self.loggedIn = ko.observable(false);
         self.name = ko.observable();
-        self.room = ko.observable(window.lastRoomId);
+        self.room = ko.observable();
         
         self.logIn = function () {
             try {
                 window.localStorage.setItem('lastUsedName', self.name());
+                window.localStorage.setItem('lastUsedRoom', self.room());
             }
             catch (err) {
                 // Do nothing
@@ -41,7 +42,10 @@
             self.loggedIn(true);
         };
 
-        if (window.localStorage && window.localStorage.getItem('lastUsedName')) self.name(window.localStorage.getItem('lastUsedName'));
+        if (window.localStorage) {
+            if (window.localStorage.getItem('lastUsedName')) self.name(window.localStorage.getItem('lastUsedName'));
+            if (window.localStorage.getItem('lastUsedRoom')) self.room(window.localStorage.getItem('lastUsedRoom'));
+        }
 
         self.isFormValid = ko.computed(function () {
             return self.name() && self.room();

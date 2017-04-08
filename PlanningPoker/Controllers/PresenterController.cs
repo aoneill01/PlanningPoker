@@ -8,15 +8,14 @@ namespace PlanningPoker.Controllers
     {
         private Random Rand = new Random();
 
-        public ActionResult Index()
+        public ActionResult Index(string id)
         {
+            return RedirectToAction("Room", new { id = string.IsNullOrEmpty(id) ? GenerateRoomId() : id.Trim() });
             
-            return RedirectToAction("Room", new { id = GenerateRoomId() });
         }
 
         public ActionResult Room(string id)
         {
-            HttpContext.Application["LastRoomId"] = id;
             return View((object)id);
         }
 
