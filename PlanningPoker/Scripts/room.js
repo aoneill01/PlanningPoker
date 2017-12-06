@@ -47,10 +47,14 @@
 
             pokerHubProxy.server.nextHand();
 
+            self.start = new Date().getTime();
+
             setTimeout(function () {
                 self.players.remove(function (player) { return player.stale; });
             }, 2000);
         }
+
+        self.timer = ko.observable("");
 
         pokerHubProxy.client.picked = function (name, card) {
             var player = self.findByName(name)
@@ -70,6 +74,20 @@
                 self.flip(false);
             }
         };
+
+        self.start = new Date().getTime();
+
+        setInterval(function () {
+            var totalSeconds = (new Date().getTime() - self.start) / 1000;
+
+            var minutes = Math.floor(totalSeconds / 60);
+            var seconds = Math.floor(totalSeconds % 60);
+
+            self.timer(minutes + ":" + (seconds < 10 ? '0' + seconds : seconds));
+
+            // Bad - Should find a more appropriate way to do this with Knockout, but I'm lazy.
+            document.title = "Planning Poker (" + self.timer() + ")";
+        }, 1000);
     }
 
     function Player(name) {
@@ -113,3 +131,4 @@ function think(nth) {
         }, 500);
     };
 }
+
